@@ -8,7 +8,7 @@ Deep learning (DL) technologies have been widely investigated to improve the per
 The datasets contain two examples, including a stepped-impedance low-pass filter (SIF) in the folder "Data_SIF" and a hairpin bandpass filter (HPF) in the folder "Data_HPF".
 
 In the folder "stepped_impedance/Data", there are three different SIF types: 4th-, 5th-, and 6th-order SIFs. In each filter type, there are three .csv files representing numbers with different precision.
-In each .csv file, labels "W1~W6, L1~L6" are the geometry of the filter. The rest of the labels are corresponding behaviors, including S21M (real part of S21) and S21P (imaginary part of S21). The frequency range is from 0.1GHz to 6.0GHz with an interval of 400MHz.
+In each .csv file, labels "W1-W6, L1-L6" are the geometry of the filter. The rest of the labels are corresponding behaviors, including S21M (real part of S21) and S21P (imaginary part of S21). The frequency range is from 0.1GHz to 6.0GHz with an interval of 400MHz.
 
 In the folder "hair_pin/Data", there are three different types of HPF, including 3rd-, 5th-, and 7th-order HPF. In each filter type, there are three .csv files representing numbers with different precision.
-In each .csv file, labels "W1~W3, L1~L5, S1" are the geometry of the filter. The rest of the labels are corresponding behaviors, including S21M (real part of S21) and S21P (imaginary part of S21). The frequency range is from 3.0GHz to 7.0GHz with an interval of 100MHz.
+In each .csv file, labels "W1-W3, L1-L5, S1" are the geometry of the filter. The rest of the labels are corresponding behaviors, including S21M (real part of S21) and S21P (imaginary part of S21). The frequency range is from 3.0GHz to 7.0GHz with an interval of 100MHz.
