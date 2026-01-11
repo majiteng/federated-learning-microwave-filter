@@ -26,8 +26,8 @@ def get_dataset():
 
     
     # 测试数据集 Rest for testing
-    test_a = data_a_in.append(data_a).drop_duplicates(keep=False) 
-    test_b = data_b_in.append(data_b).drop_duplicates(keep=False)
+    test_a = pd.concat([data_a_in, data_a]).drop_duplicates(keep=False) 
+    test_b = pd.concat([data_b_in, data_b]).drop_duplicates(keep=False)
     
     
     # 数据集标准化 Data normalization

@@ -98,7 +98,7 @@ class LocalUpdate(object):
 
         # batch_r2_csv = pd.DataFrame(batch_r2_sum)
         # batch_r2_csv.to_csv('./save/batch_r2_sum.csv')
-        return model.state_dict(), sum(epoch_loss) / len(epoch_loss), sum(epoch_r2) / len(epoch_r2)
+        return model.state_dict(), sum(epoch_loss) / len(epoch_loss), sum(epoch_r2) / len(epoch_r2), epoch_r2
 
     def inference(self, model):
         """ Returns the inference accuracy and loss.

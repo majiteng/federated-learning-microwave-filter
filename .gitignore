@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+/hair_pin/logs/
+/hair_pin/save/
+/stepped_impedance/logs/
+/stepped_impedance/save/
+.DS_Store

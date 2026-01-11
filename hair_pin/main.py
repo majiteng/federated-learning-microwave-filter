@@ -69,6 +69,10 @@ if __name__ == '__main__':
     val_acc = []
     val_r2 = []
     val_loss = []
+    
+    # Track individual client R2 scores
+    client_A_r2 = []
+    client_B_r2 = []
 
 
     for epoch in tqdm(range(args.epochs)):
@@ -83,11 +87,17 @@ if __name__ == '__main__':
 
         for idx in idxs_users:
             local_model = LocalUpdate(args=args, dataset=train_dataset[idx], logger=logger)
-            w, loss, r2 = local_model.update_weights(
+            w, loss, r2, epoch_r2_list = local_model.update_weights(
                 model=copy.deepcopy(global_model), global_round=epoch)
             local_weights.append(copy.deepcopy(w))
             local_losses.append(copy.deepcopy(loss))
             local_r2.append(r2)
+            
+            # Store individual client R2 for each local epoch
+            if idx == 'A':
+                client_A_r2.extend(epoch_r2_list)
+            elif idx == 'B':
+                client_B_r2.extend(epoch_r2_list)
 
        
         # update global weights
@@ -124,49 +134,26 @@ if __name__ == '__main__':
 
     print('\n Total Run Time: {0:0.4f}'.format(time.time() - start_time))
     
-    # Test inference after completion of training
-
-    # Test on client A data
-#     test_acc, test_loss, final_preds, final_truth,fianl_PREall,fianl_TRUall,final_predsA,final_truthA,testA3= test_inference(global_model, test_dataset)
+    # Saving the training metrics (Loss and R2 only)
+    import os
+    os.makedirs('./save', exist_ok=True)
     
-#     print('Results after {:} epochs: Train Acc. {:.2f}%, Test Acc. {:.2f}%'.format(args.epochs, 100 * val_acc[-1],
-#                                                                                    100 * test_acc))
-   
-#     print(testA3[0])
-#     print(fianl_PREall[0])
-#     print(fianl_TRUall[0])
+    # Save with ratio in filename for comparison
+    file_name = f'./save/loss_acc_ratio_{args.ratio}.pkl'
+    with open(file_name, 'wb') as f:
+        pickle.dump(obj={'train_loss': train_loss,
+                         'train_r2': train_r2,
+                         'val_loss': val_loss,
+                         'val_r2': val_r2,
+                         'client_A_r2': client_A_r2,
+                         'client_B_r2': client_B_r2,
+                         'ratio': args.ratio,
+                         'epochs': args.epochs,
+                         'local_ep': args.local_ep}, file=f)
+    f.close()
     
-   # final_preds1=final_preds[:int(len(final_preds) / 2)].detach().numpy()
-   # final_truth1=final_truth[:int(len(final_truth) / 2)].detach().numpy()
-
-#     final_preds111=scale_aT.inverse_transform(fianl_PREall)
-#     final_truth111=scale_aT.inverse_transform(fianl_TRUall)
-    
-
-#     print(final_preds111[0])
-#     print(final_truth111[0])
-    
-     
-    
-    #print(final_preds_print)
-    #print(final_truth_print)
-    
-#     # Saving the objects train_loss and train_accuracy:
-#     file_name = './save/loss_acc.pkl'
-#     with open(file_name, 'wb') as f:
-#         # pickle.dump([train_loss, train_r2, val_acc, val_loss, val_r2], f)
-#         pickle.dump(obj={'train_loss': train_loss,
-#                          'train_r2': train_r2,
-#                          'val_acc': val_acc,
-#                          'val_loss': val_loss,
-#                          'val_r2': val_r2}, file=f)
-#     f.close()
-
-#     save_name = './save/results.pkl'
-#     with open(save_name, 'wb') as f:
-#         pickle.dump(obj={'pred': final_preds,
-#                          'truth': final_truth}, file=f)
-#     f.close()
+    print(f"\nTraining metrics saved to {file_name}")
+    print(f"Final - Loss: {train_loss[-1]:.6f}, Train R2: {train_r2[-1]:.6f}, Val R2: {val_r2[-1]:.6f}")
 
     
         

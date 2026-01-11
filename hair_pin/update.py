@@ -96,7 +96,7 @@ class LocalUpdate(object):
             epoch_loss.append(sum(batch_loss) / len(batch_loss))
             epoch_r2.append(sum(batch_r2) / len(batch_r2))
             print(r2_sum)
-        return model.state_dict(), sum(epoch_loss) / len(epoch_loss), sum(epoch_r2) / len(epoch_r2)
+        return model.state_dict(), sum(epoch_loss) / len(epoch_loss), sum(epoch_r2) / len(epoch_r2), epoch_r2
 
     def inference(self, model):
         """ Returns the inference accuracy and loss.
